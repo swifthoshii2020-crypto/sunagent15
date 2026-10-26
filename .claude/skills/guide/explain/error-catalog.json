@@ -1,0 +1,855 @@
+{
+  "entries": [
+    {
+      "id": "WIN-PS-POLICY",
+      "title": "PowerShell が npm を止めた",
+      "priority": 10,
+      "match": {
+        "patterns": [
+          "running scripts is disabled on this system",
+          "スクリプトの実行が無効になっているため"
+        ],
+        "all": [
+          "npm.ps1"
+        ]
+      },
+      "what": "PowerShell の安全設定で、npm が止められている可能性が高いです。",
+      "steps": [
+        "いま命令を打っている画面で、npm の代わりに npm.cmd と入力して同じ操作を試してください。",
+        "例えば「npm run setup」なら、下のコピー用の1行をそのまま貼り付けて Enter を押します。",
+        "会社のパソコンで設定を変えたいときは、先に社内の担当者に相談してください。"
+      ],
+      "command": "npm.cmd run setup",
+      "terms": [
+        {
+          "term": "PowerShell",
+          "desc": "文字で命令を打つ Windows の画面"
+        },
+        {
+          "term": "npm",
+          "desc": "部品を入れる道具"
+        }
+      ],
+      "platforms": [
+        "win"
+      ],
+      "hook": true,
+      "hook_steps": [
+        "Claude に「npm の代わりに npm.cmd で実行して」と頼んでください。"
+      ],
+      "evidence": [
+        "EV-ERR-001",
+        "EV-ERR-005",
+        "EV-ERR-009"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm : File C:\\Program Files\\nodejs\\npm.ps1 cannot be loaded because running scripts is disabled on this system.\n    + FullyQualifiedErrorId : UnauthorizedAccess",
+          "npm : このシステムではスクリプトの実行が無効になっているため、ファイル C:\\Program Files\\nodejs\\npm.ps1 を読み込むことができません。"
+        ],
+        "negative": [
+          "File C:\\work\\.venv\\Scripts\\Activate.ps1 cannot be loaded because running scripts is disabled on this system."
+        ]
+      }
+    },
+    {
+      "id": "WIN-PS-POLICY-OTHER",
+      "title": "PowerShell がスクリプトを止めた",
+      "priority": 12,
+      "match": {
+        "patterns": [
+          "running scripts is disabled on this system",
+          "スクリプトの実行が無効になっているため"
+        ]
+      },
+      "what": "PowerShell の安全設定で、スクリプトの実行が止められた可能性が高いです。",
+      "steps": [
+        "エラー文の中で、止められたファイルの名前（〇〇.ps1）を確かめてください。",
+        "その名前を Claude に伝えて、「設定を変えずに動かす方法」を聞いてください。",
+        "会社のパソコンで設定を変えたいときは、先に社内の担当者に相談してください。"
+      ],
+      "terms": [
+        {
+          "term": "PowerShell",
+          "desc": "文字で命令を打つ Windows の画面"
+        }
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-001",
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "File C:\\work\\.venv\\Scripts\\Activate.ps1 cannot be loaded because running scripts is disabled on this system."
+        ],
+        "negative": [
+          "running scripts is enabled"
+        ]
+      }
+    },
+    {
+      "id": "WIN-PS-CMD-NOT-FOUND",
+      "title": "PowerShell で命令が見つからない",
+      "priority": 30,
+      "match": {
+        "ids": [
+          "CommandNotFoundException"
+        ],
+        "patterns": [
+          "is not recognized as the name of a cmdlet",
+          "の名前として認識されません"
+        ]
+      },
+      "what": "入力した命令の名前が、見つからなかった可能性が高いです。",
+      "steps": [
+        "命令のつづり（例: node、git）が正しいか、もう一度確かめてください。",
+        "入れたばかりの道具なら、命令を打つ画面をいったん閉じて、開き直してから試してください。",
+        "それでも出るときは、その道具がまだ入っていないので、先にインストールしてください。"
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-005",
+        "EV-ERR-009"
+      ],
+      "fixtures": {
+        "positive": [
+          "nodee : The term 'nodee' is not recognized as the name of a cmdlet, function, script file, or operable program.\n    + FullyQualifiedErrorId : CommandNotFoundException",
+          "nodee : 用語 'nodee' は、コマンドレット、関数、スクリプト ファイル、または操作可能なプログラムの名前として認識されません。"
+        ],
+        "negative": [
+          "System.Management.Automation.CommandNotFoundExceptionX"
+        ]
+      }
+    },
+    {
+      "id": "WIN-CMD-NOT-FOUND",
+      "title": "コマンドプロンプトで命令が見つからない",
+      "priority": 30,
+      "match": {
+        "patterns": [
+          "is not recognized as an internal or external command",
+          "内部コマンドまたは外部コマンド"
+        ]
+      },
+      "what": "入力した命令の名前が、見つからなかった可能性が高いです。",
+      "steps": [
+        "命令のつづり（例: node、git）が正しいか、もう一度確かめてください。",
+        "入れたばかりの道具なら、命令を打つ画面をいったん閉じて、開き直してから試してください。",
+        "それでも出るときは、その道具がまだ入っていないので、先にインストールしてください。"
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-005",
+        "EV-ERR-009"
+      ],
+      "fixtures": {
+        "positive": [
+          "'nodee' is not recognized as an internal or external command,\noperable program or batch file.",
+          "'nodee' は、内部コマンドまたは外部コマンド、\n操作可能なプログラムまたはバッチ ファイルとして認識されていません。"
+        ],
+        "negative": [
+          "is not recognized as a valid date"
+        ]
+      }
+    },
+    {
+      "id": "NPM-NO-PACKAGE-JSON",
+      "title": "package.json が無い場所で npm を実行",
+      "priority": 15,
+      "match": {
+        "ids": [
+          "ENOENT"
+        ],
+        "all": [
+          "Could not read package.json"
+        ]
+      },
+      "what": "package.json が無いフォルダで、npm を動かした可能性が高いです。",
+      "steps": [
+        "TAISUN のフォルダなど、package.json が入っているフォルダで、もう一度試してください。",
+        "Windows では、エクスプローラーでそのフォルダを開き、場所の欄に cmd と打って Enter を押すと、そこで命令を打てます。"
+      ],
+      "terms": [
+        {
+          "term": "package.json",
+          "desc": "npm が最初に読む設定のファイル"
+        },
+        {
+          "term": "npm",
+          "desc": "部品を入れる道具"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003",
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm error code ENOENT\nnpm error syscall open\nnpm error path C:\\work\\package.json\nnpm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open 'C:\\work\\package.json'"
+        ],
+        "negative": [
+          "Error: ENOENT: no such file or directory, open 'C:\\work\\node_modules\\x\\package.json'"
+        ]
+      }
+    },
+    {
+      "id": "NODE-SPAWN-NOT-FOUND",
+      "title": "呼び出した命令が見つからない",
+      "priority": 20,
+      "match": {
+        "ids": [
+          "ENOENT"
+        ],
+        "all": [
+          "spawn"
+        ]
+      },
+      "what": "プログラムが呼び出そうとした命令が、見つからなかった可能性が高いです。",
+      "steps": [
+        "エラー文の spawn の後ろにある名前（例: git）の道具が入っているか確かめてください。",
+        "入れたばかりなら、命令を打つ画面をいったん閉じて、開き直してから試してください。",
+        "それでも出るときは、エラーの全文を Claude に貼り付けて相談してください。"
+      ],
+      "terms": [
+        {
+          "term": "spawn",
+          "desc": "別の命令を呼び出すこと"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: spawn git ENOENT\n    at ChildProcess._handle.onexit\n  errno: -4058,\n  code: 'ENOENT',\n  syscall: 'spawn git'"
+        ],
+        "negative": [
+          "Error: spawnSync git EPERM"
+        ]
+      }
+    },
+    {
+      "id": "NODE-FILE-NOT-FOUND",
+      "title": "ファイルやフォルダが見つからない",
+      "priority": 40,
+      "match": {
+        "ids": [
+          "ENOENT"
+        ]
+      },
+      "what": "ファイルかフォルダが、指定した場所に見つからなかった可能性が高いです。",
+      "steps": [
+        "エラー文の中のファイル名やフォルダ名に、打ち間違いが無いか確かめてください。",
+        "作業しているフォルダが、そのファイルのあるフォルダと同じかも確かめてください。"
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004",
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: ENOENT: no such file or directory, open 'C:\\work\\data.txt'\n  errno: -4058,\n  code: 'ENOENT'"
+        ],
+        "negative": [
+          "code: 'ENOENTX'"
+        ]
+      }
+    },
+    {
+      "id": "NODE-MODULE-NOT-FOUND",
+      "title": "必要な部品（モジュール）が無い",
+      "priority": 10,
+      "match": {
+        "patterns": [
+          "Cannot find module '(?![A-Za-z]:)[^'./\\\\]"
+        ],
+        "all": [
+          "MODULE_NOT_FOUND"
+        ]
+      },
+      "what": "プログラムが使う部品（モジュール）が、まだ入っていない可能性が高いです。",
+      "steps": [
+        "エラーが出たフォルダで、下のコピー用の1行を貼り付けて Enter を押してください。",
+        "終わったら、最初にやろうとした操作をもう一度試してください。",
+        "それでも同じエラーが出るときは、エラーの全文を Claude に貼り付けて相談してください。"
+      ],
+      "command": "npm install",
+      "terms": [
+        {
+          "term": "モジュール",
+          "desc": "プログラムが使う部品"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "hook": true,
+      "hook_steps": [
+        "Claude に「足りない部品を入れて、もう一度試して」と頼んでください。"
+      ],
+      "evidence": [
+        "EV-ERR-004",
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "node:internal/modules/cjs/loader:1228\n  throw err;\nError: Cannot find module 'express'\n  code: 'MODULE_NOT_FOUND',\n  requireStack: []",
+          "Error: Cannot find module '@anthropic-ai/sdk'\n  code: 'MODULE_NOT_FOUND'"
+        ],
+        "negative": [
+          "error TS2307: Cannot find module 'express' or its corresponding type declarations.",
+          "Error: Cannot find module './lib/util'\n  code: 'MODULE_NOT_FOUND'",
+          "Error: Cannot find module 'C:\\work\\app.js'\n  code: 'MODULE_NOT_FOUND'"
+        ]
+      }
+    },
+    {
+      "id": "NODE-SCRIPT-NOT-FOUND",
+      "title": "動かそうとしたファイルが無い",
+      "priority": 10,
+      "match": {
+        "patterns": [
+          "Cannot find module '(?:[A-Za-z]:|[./\\\\])"
+        ],
+        "all": [
+          "MODULE_NOT_FOUND"
+        ]
+      },
+      "what": "node で動かそうとしたファイルが、その場所に見つからなかった可能性が高いです。",
+      "steps": [
+        "エラー文の中のファイル名に、打ち間違いが無いか確かめてください。",
+        "作業しているフォルダが、そのファイルのあるフォルダと同じかも確かめてください。"
+      ],
+      "terms": [
+        {
+          "term": "node",
+          "desc": "プログラムを動かす道具"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004",
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: Cannot find module 'C:\\work\\app.js'\n  code: 'MODULE_NOT_FOUND'",
+          "Error: Cannot find module './lib/util'\n  code: 'MODULE_NOT_FOUND'"
+        ],
+        "negative": [
+          "Error: Cannot find module 'express'\n  code: 'MODULE_NOT_FOUND'"
+        ]
+      }
+    },
+    {
+      "id": "DISK-FULL",
+      "title": "保存する場所がいっぱい",
+      "priority": 10,
+      "match": {
+        "ids": [
+          "ENOSPC"
+        ]
+      },
+      "what": "パソコンの保存場所（ディスク）がいっぱいになった可能性が高いです。",
+      "steps": [
+        "いらないファイルを消すか、ごみ箱を空にして、空きを作ってください。",
+        "空きができたら、もう一度同じ操作を試してください。",
+        "空きが十分あるのに出るときは、エラーの全文を Claude に貼り付けて相談してください。"
+      ],
+      "terms": [
+        {
+          "term": "ディスク",
+          "desc": "ファイルを保存しておく場所"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "hook": true,
+      "hook_steps": [
+        "パソコンの空きを作ってから、Claude に「もう一度試して」と頼んでください。",
+        "空きが十分あるのに出るときは、Claude にこのエラーの原因を調べてもらってください。"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: ENOSPC: no space left on device, write"
+        ],
+        "negative": [
+          "ENOSPCX"
+        ]
+      }
+    },
+    {
+      "id": "LINUX-WATCHERS-LIMIT",
+      "title": "ファイルを見張る数の上限",
+      "priority": 5,
+      "match": {
+        "ids": [
+          "ENOSPC"
+        ],
+        "all": [
+          "file watchers"
+        ]
+      },
+      "what": "ファイルの変化を見張る数が、上限に達した可能性が高いです。",
+      "steps": [
+        "開いている開発用の画面やエディタを減らしてから、もう一度試してください。",
+        "それでも出るときは、Claude に「file watchers の上限を上げる方法」を相談してください。"
+      ],
+      "platforms": [
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: ENOSPC: System limit for number of file watchers reached, watch '/home/x/src'"
+        ],
+        "negative": [
+          "Error: ENOSPC: no space left on device, write"
+        ]
+      }
+    },
+    {
+      "id": "WIN-LONG-PATH",
+      "title": "フォルダの場所が長すぎる",
+      "priority": 20,
+      "match": {
+        "ids": [
+          "ENAMETOOLONG"
+        ],
+        "patterns": [
+          "Filename too long"
+        ]
+      },
+      "what": "フォルダの場所（パス）が長すぎて、扱えなかった可能性が高いです。",
+      "steps": [
+        "C:\\work のような短い名前のフォルダに移してから、もう一度試してください。",
+        "git で出たときは、下のコピー用の1行を貼り付けて Enter を押してください。",
+        "会社のパソコンで設定を変えるときは、先に社内の担当者に相談してください。"
+      ],
+      "command": "git config --global core.longpaths true",
+      "terms": [
+        {
+          "term": "パス",
+          "desc": "ファイルの場所を表す文字の並び"
+        }
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-002"
+      ],
+      "fixtures": {
+        "positive": [
+          "error: unable to create file src/very/long/path/file.js: Filename too long",
+          "Error: ENAMETOOLONG: name too long, open 'C:\\x'"
+        ],
+        "negative": [
+          "Filename is fine"
+        ]
+      }
+    },
+    {
+      "id": "NODE-EPERM",
+      "title": "ファイルを変更できない",
+      "priority": 30,
+      "match": {
+        "ids": [
+          "EPERM"
+        ]
+      },
+      "what": "ファイルを書き換えようとして、止められた可能性が高いです。",
+      "steps": [
+        "そのファイルを開いているアプリ（エディタや Excel など）を閉じてから試してください。",
+        "ウイルス対策ソフトが調べている途中のこともあるので、少し待ってから試してください。",
+        "それでも出るときは、エラーの全文を Claude に貼り付けて相談してください。"
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: EPERM: operation not permitted, rename 'C:\\work\\a.tmp' -> 'C:\\work\\a.json'"
+        ],
+        "negative": [
+          "EPERMISSIVE mode"
+        ]
+      }
+    },
+    {
+      "id": "NODE-EACCES",
+      "title": "書き換える許可が無い",
+      "priority": 30,
+      "match": {
+        "ids": [
+          "EACCES"
+        ]
+      },
+      "what": "ファイルやフォルダを書き換える許可が無かった可能性が高いです。",
+      "steps": [
+        "npm install -g で出たときは、自分のフォルダに入れる方法を Claude に相談してください。",
+        "それ以外のときも、エラーの全文を Claude に貼り付けて相談してください。"
+      ],
+      "terms": [
+        {
+          "term": "npm",
+          "desc": "部品を入れる道具"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003",
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm error code EACCES\nnpm error syscall mkdir\nnpm error path /usr/local/lib/node_modules/x"
+        ],
+        "negative": [
+          "EACCESS"
+        ]
+      }
+    },
+    {
+      "id": "WIN-FILE-BUSY",
+      "title": "ファイルが使用中",
+      "priority": 25,
+      "match": {
+        "ids": [
+          "EBUSY"
+        ]
+      },
+      "what": "ファイルが別のアプリに使われていて、扱えなかった可能性が高いです。",
+      "steps": [
+        "そのファイルやフォルダを開いているアプリを閉じてください。",
+        "閉じたら、もう一度同じ操作を試してください。"
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: EBUSY: resource busy or locked, unlink 'C:\\work\\a.log'"
+        ],
+        "negative": [
+          "EBUSYX"
+        ]
+      }
+    },
+    {
+      "id": "NET-PORT-IN-USE",
+      "title": "通信の窓口が使用中",
+      "priority": 20,
+      "match": {
+        "ids": [
+          "EADDRINUSE"
+        ]
+      },
+      "what": "使おうとした通信の窓口（ポート）が、別のプログラムに使われている可能性が高いです。",
+      "steps": [
+        "前に起動したままの画面があれば、その画面で Ctrl キーと C キーを同時に押して止めてください。",
+        "それでも出るときは、パソコンを再起動してから試してください。"
+      ],
+      "terms": [
+        {
+          "term": "ポート",
+          "desc": "プログラムが通信に使う窓口の番号"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "Error: listen EADDRINUSE: address already in use :::3000"
+        ],
+        "negative": [
+          "EADDRINUSEX"
+        ]
+      }
+    },
+    {
+      "id": "NET-CONNECTION",
+      "title": "通信先につながらない",
+      "priority": 30,
+      "match": {
+        "ids": [
+          "ETIMEDOUT",
+          "ENOTFOUND",
+          "EAI_AGAIN"
+        ]
+      },
+      "what": "インターネットなどの通信先に、うまくつながらなかった可能性が高いです。",
+      "steps": [
+        "ブラウザでどこかのページを開いて、インターネットにつながるか確かめてください。",
+        "会社のネットワークでは、プロキシの設定が要ることがあるので社内の担当者に相談してください。"
+      ],
+      "terms": [
+        {
+          "term": "プロキシ",
+          "desc": "会社などで通信を中継する仕組み"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003",
+        "EV-ERR-004"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm error code ETIMEDOUT\nnpm error network request to https://registry.npmjs.org/x failed",
+          "getaddrinfo ENOTFOUND registry.npmjs.org"
+        ],
+        "negative": [
+          "Error: read ECONNRESET at TCP.onStreamRead"
+        ]
+      }
+    },
+    {
+      "id": "NET-CERT",
+      "title": "通信の安全確認で止められた",
+      "priority": 10,
+      "match": {
+        "ids": [
+          "SELF_SIGNED_CERT_IN_CHAIN",
+          "UNABLE_TO_GET_ISSUER_CERT_LOCALLY",
+          "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+          "CERT_HAS_EXPIRED"
+        ]
+      },
+      "what": "通信の安全確認（証明書）で、つなぐのを止められた可能性が高いです。",
+      "steps": [
+        "会社のネットワークなら、社内の担当者に「npm の証明書の設定」を相談してください。",
+        "安全確認を切る設定はしないでください。情報が盗まれる危険があります。"
+      ],
+      "terms": [
+        {
+          "term": "証明書",
+          "desc": "通信相手が本物かを確かめる仕組み"
+        },
+        {
+          "term": "npm",
+          "desc": "部品を入れる道具"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm error code SELF_SIGNED_CERT_IN_CHAIN\nnpm error errno SELF_SIGNED_CERT_IN_CHAIN"
+        ],
+        "negative": [
+          "SELF_SIGNED_CERT_IN_CHAINS"
+        ]
+      }
+    },
+    {
+      "id": "NODE-VERSION-OLD",
+      "title": "Node.js の版が合わない",
+      "priority": 35,
+      "match": {
+        "ids": [
+          "EBADENGINE"
+        ],
+        "patterns": [
+          "Unsupported engine"
+        ]
+      },
+      "what": "Node.js の版が古く、このプログラムに合っていない可能性が高いです。",
+      "steps": [
+        "これは注意の表示です。やりたい操作が問題なく動いているなら、そのままで大丈夫です。",
+        "動かないときは、nodejs.org で「LTS（長く使える安定版）」をダウンロードして入れ直してください。",
+        "入れ直したら、命令を打つ画面をいったん閉じて、開き直してから試してください。"
+      ],
+      "terms": [
+        {
+          "term": "Node.js",
+          "desc": "プログラムを動かす土台"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm warn EBADENGINE Unsupported engine {\nnpm warn EBADENGINE   required: { node: '>=20' },\nnpm warn EBADENGINE   current: { node: 'v16.20.2' }"
+        ],
+        "negative": [
+          "engine started"
+        ]
+      }
+    },
+    {
+      "id": "NPM-ERESOLVE",
+      "title": "部品どうしの組み合わせが合わない",
+      "priority": 20,
+      "match": {
+        "ids": [
+          "ERESOLVE"
+        ]
+      },
+      "what": "部品どうしの組み合わせ（依存関係）が合わず、入れられなかった可能性が高いです。",
+      "steps": [
+        "エラーの全文を Claude に貼り付けて「ERESOLVE を直して」と頼んでください。",
+        "自分で直すときは、どの部品が合わないかを Claude に説明してもらってから進めてください。"
+      ],
+      "terms": [
+        {
+          "term": "依存関係",
+          "desc": "部品どうしが互いに必要としている関係"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-003"
+      ],
+      "fixtures": {
+        "positive": [
+          "npm error code ERESOLVE\nnpm error ERESOLVE unable to resolve dependency tree"
+        ],
+        "negative": [
+          "ERESOLVED"
+        ]
+      }
+    },
+    {
+      "id": "GIT-NOT-REPO",
+      "title": "git で管理していないフォルダ",
+      "priority": 30,
+      "match": {
+        "patterns": [
+          "not a git repository",
+          "git リポジトリではありません"
+        ]
+      },
+      "what": "git で管理していないフォルダで、git を使った可能性が高いです。",
+      "steps": [
+        "TAISUN のフォルダなど、git で管理しているフォルダで、もう一度試してください。",
+        "どのフォルダか分からないときは、Claude に「git で管理しているフォルダはどこ？」と聞いてください。"
+      ],
+      "terms": [
+        {
+          "term": "git",
+          "desc": "ファイルの変更の履歴を残す道具"
+        }
+      ],
+      "platforms": [
+        "win",
+        "mac",
+        "linux"
+      ],
+      "evidence": [
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "fatal: not a git repository (or any of the parent directories): .git"
+        ],
+        "negative": [
+          "fatal: refusing to merge unrelated histories"
+        ]
+      }
+    },
+    {
+      "id": "WIN-PYTHON-STORE",
+      "title": "python で Microsoft Store が開く",
+      "priority": 20,
+      "match": {
+        "patterns": [
+          "Python was not found; run without arguments to install from the Microsoft Store"
+        ]
+      },
+      "what": "python の代わりに、Microsoft Store の案内が動いた可能性が高いです。",
+      "steps": [
+        "python3 と打っていたら、代わりに python と打って試してください。",
+        "それでも出るときは、python.org から Python を入れてから試してください。"
+      ],
+      "platforms": [
+        "win"
+      ],
+      "evidence": [
+        "EV-ERR-005"
+      ],
+      "fixtures": {
+        "positive": [
+          "Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases."
+        ],
+        "negative": [
+          "Python 3.12.4"
+        ]
+      }
+    }
+  ]
+}
