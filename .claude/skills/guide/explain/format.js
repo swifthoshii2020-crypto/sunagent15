@@ -8,10 +8,9 @@
 'use strict';
 
 const { LIMITS } = require('./constants');
-const { HEADINGS, NOT_FOUND, NOT_FOUND_STEPS, closingLine } = require('./messages');
-
-// Claude 向けの1行メモ（FR-HOOK-005）。利用者には表示されない
-const CONTEXT_NOTE = '（TAISUN error-explain）利用者にはこのエラーの説明を表示済みです。説明ID: ';
+const {
+  HEADINGS, NOT_FOUND, NOT_FOUND_STEPS, CONTEXT_NOTE, closingLine,
+} = require('./messages');
 
 function numbered(steps) {
   return steps.map((step, i) => `  ${i + 1}. ${step}`);

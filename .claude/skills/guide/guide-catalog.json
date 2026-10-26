@@ -1,0 +1,180 @@
+{
+  "categories": [
+    { "id": "marketing", "label": "マーケティング", "example": "/guide LPを作りたい" },
+    { "id": "video", "label": "動画", "example": "/guide ショート動画を作りたい" },
+    { "id": "image", "label": "画像", "example": "/guide 画像を作りたい" },
+    { "id": "research", "label": "リサーチ", "example": "/guide リサーチしたい" },
+    { "id": "dev", "label": "開発", "example": "/guide アプリを作りたい" },
+    { "id": "help", "label": "困ったとき", "example": "/guide 使い方が分からない" }
+  ],
+  "entries": [
+    {
+      "name": "lp-full-generation",
+      "kind": "skill",
+      "category": "marketing",
+      "keywords": ["LP", "ランディングページ", "販売ページ"],
+      "summary": "商品を売るためのページ（LP）の文章と構成を一式作ります",
+      "example": "/lp-full-generation 50代向けのオンライン英会話のLPを作って"
+    },
+    {
+      "name": "taiyo-style-lp",
+      "kind": "skill",
+      "category": "marketing",
+      "keywords": ["LP", "ランディングページ"],
+      "summary": "読む人の心を動かす言い回しで、LPの文章を書きます",
+      "example": "/taiyo-style-lp 初心者向けの家庭菜園講座のLPを書いて"
+    },
+    {
+      "name": "taiyo-style-sales-letter",
+      "kind": "skill",
+      "category": "marketing",
+      "keywords": ["セールスレター", "販売の文章"],
+      "summary": "商品の魅力が伝わる、長めの販売の文章を書きます",
+      "example": "/taiyo-style-sales-letter 手作り石けんの販売の文章を書いて"
+    },
+    {
+      "name": "taiyo-style-step-mail",
+      "kind": "skill",
+      "category": "marketing",
+      "keywords": ["ステップメール", "メルマガ"],
+      "summary": "登録した人に順番に届けるメールの文章をまとめて作ります",
+      "example": "/taiyo-style-step-mail 料理教室に興味がある人向けに5通作って"
+    },
+    {
+      "name": "taiyo-style-headline",
+      "kind": "skill",
+      "category": "marketing",
+      "keywords": ["ヘッドライン", "キャッチコピー", "見出し"],
+      "summary": "思わず読みたくなる見出しやキャッチコピーの案を出します",
+      "example": "/taiyo-style-headline 腰痛ストレッチ動画の見出しを10個出して"
+    },
+    {
+      "name": "shorts-create",
+      "kind": "skill",
+      "category": "video",
+      "keywords": ["ショート", "Shorts", "リール", "Instagram", "TikTok"],
+      "summary": "縦長の短い動画（ショート・リール）を作ります",
+      "example": "/shorts-create 朝の5分ストレッチを紹介するショート動画を作って"
+    },
+    {
+      "name": "video-agent",
+      "kind": "skill",
+      "category": "video",
+      "keywords": ["動画", "動画制作"],
+      "summary": "台本から動画の完成まで、動画作りの流れをまとめて進めます",
+      "example": "/video-agent 商品紹介の3分動画を作りたい"
+    },
+    {
+      "name": "video-download",
+      "kind": "skill",
+      "category": "video",
+      "keywords": ["ダウンロード", "動画を保存"],
+      "summary": "YouTube などの動画を、手元で見られるように保存します",
+      "example": "/video-download 自分のチャンネルの動画を保存したい"
+    },
+    {
+      "name": "nanobanana-pro",
+      "kind": "skill",
+      "category": "image",
+      "keywords": ["画像", "イラスト", "写真", "バナー"],
+      "summary": "文章で伝えるだけで、画像やイラストを作ります",
+      "example": "/nanobanana-pro 春のセールのバナー画像を作って"
+    },
+    {
+      "name": "ai-manga-generator",
+      "kind": "skill",
+      "category": "image",
+      "keywords": ["漫画", "マンガ"],
+      "summary": "コマ割りやセリフのある漫画を作ります",
+      "example": "/ai-manga-generator サービスの使い方を4コマ漫画にして"
+    },
+    {
+      "name": "agentic-vision",
+      "kind": "skill",
+      "category": "image",
+      "keywords": ["画像品質チェック", "画像チェック", "画像を見て"],
+      "summary": "画像や動画の中身を読み取って、気になる点を教えます",
+      "example": "/agentic-vision このバナー画像の文字が読みやすいか見て"
+    },
+    {
+      "name": "research-system-free",
+      "kind": "skill",
+      "category": "research",
+      "keywords": ["リサーチ", "調査", "調べ", "無料リサーチ"],
+      "summary": "お金のかかるサービスを使わずに、テーマを詳しく調べます",
+      "example": "/research-system-free 50代向けの副業の人気テーマを調べて"
+    },
+    {
+      "name": "research",
+      "kind": "skill",
+      "category": "research",
+      "keywords": ["リサーチ", "調査"],
+      "summary": "テーマを深く調べて、出典つきのまとめを作ります",
+      "example": "/research 地方のカフェ開業の成功例を調べて"
+    },
+    {
+      "name": "url-deep-analysis",
+      "kind": "skill",
+      "category": "research",
+      "keywords": ["URL", "URL分析", "サイト", "ホームページ"],
+      "summary": "ホームページを開いて、中身や作りを詳しく分析します",
+      "example": "/url-deep-analysis https://example.com を分析して"
+    },
+    {
+      "name": "keyword-free",
+      "kind": "skill",
+      "category": "research",
+      "keywords": ["キーワード", "検索ワード"],
+      "summary": "よく検索されている言葉（キーワード）を集めます",
+      "example": "/keyword-free 家庭菜園 に関係するキーワードを集めて"
+    },
+    {
+      "name": "sdd-full",
+      "kind": "skill",
+      "category": "dev",
+      "keywords": ["システム", "アプリ", "開発", "作りたいシステム", "ツール"],
+      "summary": "作りたいシステムを伝えると、設計書から順番に作ります",
+      "example": "/sdd-full 予約を受け付けるアプリを作りたい"
+    },
+    {
+      "name": "opencode-fix",
+      "kind": "skill",
+      "category": "dev",
+      "keywords": ["バグ", "不具合", "直したい", "動かない"],
+      "summary": "プログラムの不具合（バグ）を調べて直します",
+      "example": "/opencode-fix 保存ボタンを押しても保存されない不具合を直して"
+    },
+    {
+      "name": "security-scan-trivy",
+      "kind": "skill",
+      "category": "dev",
+      "keywords": ["セキュリティ", "脆弱性", "安全か"],
+      "summary": "プログラムに危ない弱点が無いかを調べます",
+      "example": "/security-scan-trivy このフォルダの安全性を調べて"
+    },
+    {
+      "name": "help",
+      "kind": "builtin",
+      "category": "help",
+      "keywords": ["使い方", "ヘルプ", "分からない", "わからない", "help"],
+      "summary": "Claude Code で使える命令の一覧を表示します",
+      "example": "/help"
+    },
+    {
+      "name": "login",
+      "kind": "builtin",
+      "category": "help",
+      "keywords": ["ログイン", "サインイン", "login"],
+      "summary": "Claude のアカウントにログインし直します",
+      "example": "/login"
+    },
+    {
+      "name": "compact",
+      "kind": "builtin",
+      "category": "help",
+      "keywords": ["重い", "長くなった", "会話を整理", "compact"],
+      "summary": "長くなった会話を要約して、動きを軽くします",
+      "example": "/compact"
+    }
+  ]
+}

@@ -22,33 +22,9 @@ const { LIMITS, writeConfig } = require('./constants');
 const { loadCatalog } = require('./catalog');
 const { matchError } = require('./matcher');
 const { formatTerminal, formatJson } = require('./format');
+const { CLI: TEXT, hintResult, hintFailed } = require('./messages');
 
 const CATALOG_PATH = path.join(__dirname, 'error-catalog.json');
-
-const TEXT = Object.freeze({
-  USAGE: [
-    '使い方:',
-    '  node cli.js explain "<エラー文>" [--json]',
-    '  node cli.js explain --file <ファイル> [--json]',
-    '  <命令> | node cli.js explain [--json]',
-    '  node cli.js explain --id <説明ID>',
-    '  node cli.js guide "<やりたいこと>"',
-    '  node cli.js hint on|off',
-  ].join('\n'),
-  ID_NOT_FOUND: 'その番号の説明はありません。',
-  CATALOG_BROKEN: 'エラー説明集を読み込めませんでした（メンテナ向け）: ',
-});
-
-function hintMessage(on) {
-  const other = `node "${__filename}" hint ${on ? 'off' : 'on'}`;
-  return on
-    ? `エラー時のヒントをオンにしました。効くのは TAISUN 本体と setup-project 済みのフォルダです（オフ: ${other}）`
-    : `エラー時のヒントをオフにしました（オン: ${other}）`;
-}
-
-function hintFailMessage(code) {
-  return `設定を保存できませんでした（${code || '理由不明'}）。書き込みできる場所か確かめてください。`;
-}
 
 function result(exitCode, stdout, stderr) {
   return { exitCode, stdout: stdout || '', stderr: stderr || '' };
@@ -172,9 +148,9 @@ function hintCommand(opts, args) {
   try {
     writeConfig(opts.homeDir, { enabled: on });
   } catch (e) {
-    return result(3, '', `${hintFailMessage(e && e.code)}\n`);
+    return result(3, '', `${hintFailed(e && e.code)}\n`);
   }
-  return result(0, `${hintMessage(on)}\n`);
+  return result(0, `${hintResult(on, __filename)}\n`);
 }
 
 function guideCommand(opts, args) {
@@ -199,6 +175,14 @@ async function run(options) {
   return usage();
 }
 
+// 直接起動より前に export する（cli.js と guide.js が互いを require するため）
+module.exports = {
+  run,
+  decodeBuffer,
+  readFileLimited,
+  readStdinLimited,
+};
+
 if (require.main === module) {
   run({ argv: process.argv.slice(2), stdin: process.stdin, env: process.env }).then((r) => {
     process.stdout.write(r.stdout);
@@ -207,9 +191,3 @@ if (require.main === module) {
     if (!process.stdin.isTTY) process.stdin.destroy();
   });
 }
-
-module.exports = {
-  run,
-  decodeBuffer,
-  readStdinLimited,
-};
