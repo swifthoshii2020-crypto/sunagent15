@@ -35,6 +35,10 @@ module.exports = {
     '!src/proxy-mcp/router/types.ts',
     '!src/proxy-mcp/skillize/types.ts',
     '!src/proxy-mcp/workflow/types.ts',
+    // /guide skill + error explain engine (JS under .claude/; tested by the explain project)
+    '.claude/skills/guide/explain/**/*.js',
+    '.claude/skills/guide/guide.js',
+    '.claude/hooks/error-explain-hook.js',
   ],
   testPathIgnorePatterns: ['/node_modules/', '/.ait42/', '/.claude/worktrees/'],
   // Prevent Jest Haste map from scanning Python venv directories that contain
@@ -145,6 +149,17 @@ module.exports = {
     {
       displayName: 'scripts',
       testMatch: ['<rootDir>/scripts/__tests__/**/*.test.js'],
+      modulePathIgnorePatterns: [
+        '<rootDir>/\\.claude/skills/.*/\\.venv/',
+        '<rootDir>/udemy-downloader/\\.venv/',
+      ],
+      testEnvironment: 'node',
+    },
+    // /guide skill + error explain tests: JS tests for .claude/skills/guide and
+    // .claude/hooks/error-explain-hook.js. Run via `npx jest --selectProjects explain`
+    {
+      displayName: 'explain',
+      testMatch: ['<rootDir>/tests/unit/explain/**/*.test.js'],
       modulePathIgnorePatterns: [
         '<rootDir>/\\.claude/skills/.*/\\.venv/',
         '<rootDir>/udemy-downloader/\\.venv/',
