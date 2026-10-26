@@ -7,6 +7,9 @@
 
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
 const LIMITS = Object.freeze({
   TITLE_MAX: 40,
   WHAT_MAX: 80,
@@ -104,7 +107,82 @@ function isDenied(text) {
   return DENYLIST.some((re) => re.test(rest));
 }
 
+// ---- 利用者ごとの設定（C-12・FR-CFG-001/002）。読込/書込はここに集約する（SSOT-DSN-004）----
+
+const ENV_FLAG = 'TAISUN_ERROR_EXPLAIN';
+
+/**
+ * 設定ファイルのパス（<ホーム>/.claude/taisun/error-explain.json・リポジトリ外）
+ * @param {string} homeDir
+ * @returns {string}
+ */
+function configPath(homeDir) {
+  return path.join(homeDir, '.claude', 'taisun', 'error-explain.json');
+}
+
+function readRawConfig(homeDir) {
+  if (typeof homeDir !== 'string' || homeDir.length === 0) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(configPath(homeDir), 'utf8'));
+    return data !== null && typeof data === 'object' && !Array.isArray(data) ? data : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+/**
+ * 設定を読む。無い・壊れている場合は既定値（どちらも false）
+ * @param {string} homeDir
+ * @returns {{enabled: boolean, additionalContext: boolean}}
+ */
+function readConfig(homeDir) {
+  const raw = readRawConfig(homeDir) || {};
+  return {
+    enabled: raw.enabled === true,
+    additionalContext: raw.additionalContext === true,
+  };
+}
+
+/**
+ * hook を有効にするか（環境変数 1/0 > 設定ファイルの enabled > off）
+ * @param {{env: object, homeDir: string}} opts
+ * @returns {boolean}
+ */
+function isExplainEnabled({ env, homeDir }) {
+  const flag = env ? env[ENV_FLAG] : undefined;
+  if (flag === '1') return true;
+  if (flag === '0') return false;
+  return readConfig(homeDir).enabled;
+}
+
+/**
+ * 設定を更新する。既存の他キーは残し、フォルダは作り、一時ファイルから置き換える。
+ * 失敗時は例外を投げる（呼び出し側が exit 3 にする）
+ * @param {string} homeDir
+ * @param {object} patch
+ */
+function writeConfig(homeDir, patch) {
+  if (typeof homeDir !== 'string' || homeDir.length === 0) {
+    throw Object.assign(new Error('home directory is unknown'), { code: 'ENOHOME' });
+  }
+  const file = configPath(homeDir);
+  const next = Object.assign({}, readRawConfig(homeDir) || {}, patch);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const tmp = `${file}.${process.pid}.tmp`;
+  try {
+    fs.writeFileSync(tmp, `${JSON.stringify(next, null, 2)}\n`);
+    fs.renameSync(tmp, file);
+  } catch (e) {
+    fs.rmSync(tmp, { force: true });
+    throw e;
+  }
+}
+
 module.exports = {
+  configPath,
+  readConfig,
+  isExplainEnabled,
+  writeConfig,
   LIMITS,
   ID_PATTERN,
   PLATFORMS,
