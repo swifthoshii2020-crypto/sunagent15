@@ -28,7 +28,8 @@ const ERROR_CATALOG_PATH = path.join(__dirname, 'explain', 'error-catalog.json')
 const GUIDE_CATALOG_PATH = path.join(__dirname, 'guide-catalog.json');
 const CLI_PATH = path.join(__dirname, 'explain', 'cli.js');
 const INBOX_NAME = '.taisun-inbox';
-const INBOX_FILE = /^guide-[A-Za-z0-9_-]{1,80}\.txt$/;
+// 一時ファイル名の規則（SRS §12.2）。正規表現はカタログ同様に固定値から作り、入力からは作らない
+const INBOX_FILE = new RegExp(`^guide-[A-Za-z0-9_-]{1,${LIMITS.INBOX_ID_MAX}}\\.txt$`);
 const HINT_WORD = 'ヒント';
 const ERROR_WORDS = ['error', 'err!', 'exception', 'exit code', 'エラー', '失敗しました'];
 const UPPER_ID = /(?<![A-Za-z0-9_])[A-Z][A-Z0-9_]{2,}(?![A-Za-z0-9_])/;
