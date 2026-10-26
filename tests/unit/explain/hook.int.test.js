@@ -5,7 +5,8 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { Readable } = require('stream');
-const { spawnSync, execFileSync } = require('child_process');
+const { spawnSync } = require('child_process');
+const { branchBase, showAt } = require('./git-base');
 
 const ROOT = path.resolve(__dirname, '..', '..', '..');
 const HOOK = path.join(ROOT, '.claude', 'hooks', 'error-explain-hook.js');
@@ -187,14 +188,17 @@ describe('ADR-006 settings への登録', () => {
     hooks: [{ type: 'command', command: 'node', args: ['${CLAUDE_PROJECT_DIR}/.claude/hooks/error-explain-hook.js'], timeout: 5 }],
   };
 
-  test.each(['settings.json', 'settings.normal.json'])('ADR-006 %s は PostToolUseFailure 1エントリだけを追加し、他は変えない', (name) => {
-    const rel = `.claude/${name}`;
-    const now = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
-    const base = JSON.parse(execFileSync('git', ['show', `e8e6a89:${rel}`], { cwd: ROOT, encoding: 'utf8' }));
-    expect(now.hooks.PostToolUseFailure).toEqual([EXPECTED]);
-    const rest = JSON.parse(JSON.stringify(now));
+  const BASE = branchBase(ROOT);
+  const read = (name) => JSON.parse(fs.readFileSync(path.join(ROOT, '.claude', name), 'utf8'));
+
+  test.each(['settings.json', 'settings.normal.json'])('ADR-006 %s に PostToolUseFailure がちょうど1エントリ（exec form・timeout 5・非 async）', (name) => {
+    expect(read(name).hooks.PostToolUseFailure).toEqual([EXPECTED]);
+  });
+
+  (BASE ? test.each : test.skip.each)(['settings.json', 'settings.normal.json'])('ADR-006 %s は分岐元から PostToolUseFailure 以外を変えない', (name) => {
+    const rest = read(name);
     delete rest.hooks.PostToolUseFailure;
-    expect(rest).toEqual(base);
+    expect(rest).toEqual(JSON.parse(showAt(ROOT, BASE, `.claude/${name}`)));
   });
 });
 

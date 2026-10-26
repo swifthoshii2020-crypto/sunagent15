@@ -231,7 +231,7 @@ cd ~\Projects\MyProject
   │ .git         │ 初期化済み                                │
   │ .claude/     │ → ~/sunagent15/.claude/                │
   │ .mcp.json    │ → ~/sunagent15/.mcp.json               │
-  │ スキル       │ 68個                                      │
+  │ スキル       │ 69個                                      │
   │ エージェント │ 83個                                      │
   └──────────────┴──────────────────────────────────────────┘
 ```
@@ -282,16 +282,16 @@ npm run mcp:status       # 現在の状態を確認
 **Mac:**
 ```bash
 ./scripts/install.sh --list-profiles          # 一覧表示
-./scripts/install.sh --profile minimal        # 最小構成（92個）
-./scripts/install.sh --profile full           # 全スキル（約121個）
+./scripts/install.sh --profile minimal        # 最小構成（93個）
+./scripts/install.sh --profile full           # 全スキル（約122個）
 ./scripts/install.sh --with-docker --with-figma  # 個別追加
 ```
 
 **Windows:**
 ```powershell
 .\scripts\install.ps1 -ListProfiles           # 一覧表示
-.\scripts\install.ps1 -Profile minimal        # 最小構成（92個）
-.\scripts\install.ps1 -Profile full           # 全スキル（約121個）
+.\scripts\install.ps1 -Profile minimal        # 最小構成（93個）
+.\scripts\install.ps1 -Profile full           # 全スキル（約122個）
 .\scripts\install.ps1 -WithDocker -WithFigma  # 個別追加
 ```
 
@@ -498,6 +498,8 @@ npm run taisun:diagnose
 
 ## 🎯 使い方
 
+困ったとき・何から始めるか迷ったときは、Claude Code で /guide と入力してください。
+
 インストール後は **日本語で話しかけるだけ** で全機能が使えます：
 
 ```
@@ -514,7 +516,7 @@ YouTubeサムネイルを作って
 
 | カテゴリ | 数 | 例 |
 |---------|----|----|
-| スキル | 68個 | mega-research, taiyo-style-lp, sdd-full, world-research |
+| スキル | 69個 | mega-research, taiyo-style-lp, sdd-full, world-research |
 | エージェント | Claude Code subagents + agent-source 83個 | planner, code-reviewer, security-reviewer, tdd-guide 等は Claude Code 組み込み |
 | コマンド | 101+個 | /learn, /research, /sdd-full, /summarize |
 | Hookシステム | 14 層（hook ファイル 62 個） | 危険コマンド防止・セッション継続・自動バックアップ・タスク結果オーバーフロー防止 |

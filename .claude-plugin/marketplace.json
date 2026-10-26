@@ -5,7 +5,7 @@
     "email": "san15@example.com"
   },
   "metadata": {
-    "description": "68スキル・25 MCPサーバーの統合開発・マーケティングプラットフォーム（エージェントは Claude Code 組み込み subagent + 83 agent-source テンプレートを活用）"
+    "description": "69スキル・25 MCPサーバーの統合開発・マーケティングプラットフォーム（エージェントは Claude Code 組み込み subagent + 83 agent-source テンプレートを活用）"
   },
   "plugins": [
     {

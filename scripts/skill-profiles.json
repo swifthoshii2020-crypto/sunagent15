@@ -32,7 +32,8 @@
         "security-scan-trivy", "workflow-automation-n8n", "unified-notifications-apprise",
         "postgres-mcp-analyst",
         "hierarchical-memory", "qdrant-memory", "notion-knowledge-mcp",
-        "agentic-vision"
+        "agentic-vision",
+        "guide"
       ]
     },
     "video": {

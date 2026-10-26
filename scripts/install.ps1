@@ -888,6 +888,7 @@ Write-Host "    .\scripts\install.ps1 -Profile minimal    # 最小構成に変�
 Write-Host "    .\scripts\install.ps1 -Profile full       # 全スキルに変更"
 Write-Host ""
 Write-Host "  ❓ 困ったときは："
+Write-Host "     困ったとき・何から始めるか迷ったときは、Claude Code で /guide と入力してください。"
 Write-Host "     npm run taisun:diagnose  → 問題の診断"
 Write-Host "     チャットで「使い方を教えて」と話しかける"
 Write-Host ""
